@@ -4,12 +4,13 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.migration.migration.config.ClientConfiguration;
-import com.migration.migration.entity.KycData;
+import com.migration.migration.request.PhrRequestPlayLoad;
+import com.migration.migration.request.PhrResponsePlayLoad;
 
 @FeignClient(value = "migration-client", url = "${user.kyc.service.url}", configuration = ClientConfiguration.class)
 public interface MigrationClient {
 
 	@PostMapping
-	KycData saveUserKyc(KycData kycData);
+	PhrResponsePlayLoad saveUserKyc(PhrRequestPlayLoad phrRequestPlayLoad);
 
 }

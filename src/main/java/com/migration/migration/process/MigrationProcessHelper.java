@@ -1,12 +1,12 @@
 package com.migration.migration.process;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 
-import com.migration.migration.entity.KycData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.migration.migration.proxy.MigrationClient;
+import com.migration.migration.request.PhrRequestPlayLoad;
 
 @Component
 public class MigrationProcessHelper {
@@ -15,11 +15,11 @@ public class MigrationProcessHelper {
 	@Autowired
 	private MigrationClient migrationClient;
 	
-	@Async
+	
 	@Transactional
-	public void migrate(KycData kycData) {
+	public void migrate(PhrRequestPlayLoad phrRequestPlayLoad) {
 		
-		migrationClient.saveUserKyc(kycData);
+		migrationClient.saveUserKyc(phrRequestPlayLoad);
 	}
 	
 	

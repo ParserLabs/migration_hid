@@ -15,9 +15,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import com.migration.migration.component.HidPhrTransFormComponent;
 import com.migration.migration.entity.KycData;
+import com.migration.migration.entity.UserEntity;
 import com.migration.migration.proxy.MigrationClient;
-import com.migration.migration.repository.KycDataRepository;
+import com.migration.migration.repository.UserEntityDataRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +30,7 @@ public class MigrationProcess {
 	@Autowired
 	private MigrationClient migrationClient;
 	@Autowired
-	private KycDataRepository kycDataRepository;
+	private UserEntityDataRepository userEntityDataRepository;
 
 	@Value("${cipher.secretKey}")
 	private String aadhaarEncryptionKey;
@@ -37,6 +39,9 @@ public class MigrationProcess {
 	
 	@Autowired
 	MigrationProcessHelper migrationProcessHelper;
+	
+	@Autowired
+	HidPhrTransFormComponent hidPhrTransFormComponent;
 
 	public void stop() {
 		this.startMigration = false;
@@ -44,7 +49,7 @@ public class MigrationProcess {
 
 	@Async
 	public void start() {
-		long total = kycDataRepository.count();
+		long total = userEntityDataRepository.count();
 		int page = 0;
 		int limit = 20;
 		long size = 0;
@@ -55,17 +60,18 @@ public class MigrationProcess {
 		long start = System.currentTimeMillis();
 		log.info("Migration started.");
 		while (this.startMigration && total > size) {
-			Page<KycData> userKycs = kycDataRepository.findAll(PageRequest.of(page++, limit));
-			if (Objects.nonNull(userKycs)) {
-				userKycs.stream().filter(Objects::nonNull).filter(userKyc -> !"E".equals(userKyc.getMigrated()))
-						.forEach(userKyc -> {
-							//responseAsync.add(CompletableFuture.runAsync(() -> migrateUserKycData(userKyc)));
-							//CompletableFuture.runAsync(() -> migrateUserKycData(userKyc));
-							migrationProcessHelper.migrate(userKyc);
-						});
-				size += limit;
-				log.info("Total records processed till now {}.", size);
-			}
+			Page<UserEntity> userKycs = userEntityDataRepository.findAll(PageRequest.of(page++, limit));
+			
+//			if (Objects.nonNull(userKycs)) {
+//				userKycs.stream().filter(Objects::nonNull).filter(userKyc -> !"E".equals(userKyc.getPhrMigrated()))
+//						.forEach(userKyc -> {
+//							responseAsync.add(CompletableFuture.runAsync(() -> migrateUserKycData(userKyc)));
+//							CompletableFuture.runAsync(() -> migrateUserKycData(userKyc));
+//							migrationProcessHelper.migrate(userKyc);
+//						});
+//				size += limit;
+//				log.info("Total records processed till now {}.", size);
+//			}
 			log.info("{} records processed successfully.", size);
 		}
 
@@ -81,21 +87,20 @@ public class MigrationProcess {
 		log.info("Total records processed successfully {}.", total);
 	}
 
-	@Transactional
-	public void migrateUserKycData(KycData kycData) {
-		
-		 migrationClient.saveUserKyc(kycData);
-		// KycData kycDataResponse= null;
-		//KycData kycDataResponse = saveUserKycData(kycData);
+//	@Transactional
+//	public void migrateUserKycData(UserEntity userEntity) {
+//		
+//		 migrationClient.saveUserKyc(userEntity);
+//		 KycData kycDataResponse= null;
 //		if (Objects.nonNull(kycDataResponse)) {
-//			kycData.setMigrated("Y");
+//			userEntity.setPhrMigrated("Y");
+//		} else if () {
+//			userEntity.setCmMigrated("Y");
 //		}
-//		} else {
-//			kycData.setMigrated("N");
-//		}
-		// kycDataRepository.save(kycData);
-		//return kycData;
-	}
+//		
+//		 userEntityDataRepository.save(kycData);
+//		return kycData;
+//	}
 
 	private KycData saveUserKycData(KycData kycData) {
 		//String aadhaarNumber = AES.decrypt(kycData.getAadhaar(), aadhaarEncryptionKey);
