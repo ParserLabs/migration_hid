@@ -15,11 +15,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import com.migration.migration.component.HidCMTransformComponent;
 import com.migration.migration.component.HidPhrTransFormComponent;
 import com.migration.migration.entity.KycData;
 import com.migration.migration.entity.UserEntity;
 import com.migration.migration.proxy.MigrationClient;
 import com.migration.migration.repository.UserEntityDataRepository;
+import com.migration.migration.request.PhrRequestPlayLoad;
+import com.migration.migration.request.ShareCMRequestPlayLoad;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,12 +39,13 @@ public class MigrationProcess {
 	private String aadhaarEncryptionKey;
 
 	private boolean startMigration;
-	
+
 	@Autowired
-	MigrationProcessHelper migrationProcessHelper;
-	
+	private MigrationProcessHelper migrationProcessHelper;
 	@Autowired
-	HidPhrTransFormComponent hidPhrTransFormComponent;
+	private HidPhrTransFormComponent hidPhrTransFormComponent;
+	@Autowired
+	private HidCMTransformComponent hidCMTransformComponent;
 
 	public void stop() {
 		this.startMigration = false;
@@ -54,26 +58,26 @@ public class MigrationProcess {
 		int limit = 20;
 		long size = 0;
 		this.startMigration = true;
+		long offset = 1;
 
-		//List<CompletableFuture<KycData>> responseAsync = new ArrayList<>();
 		log.info("Total user kyc records in data base are {}", total);
 		long start = System.currentTimeMillis();
 		log.info("Migration started.");
 		while (this.startMigration && total > size) {
-			Page<UserEntity> userKycs = userEntityDataRepository.findAll(PageRequest.of(page++, limit));
-			
-//			if (Objects.nonNull(userKycs)) {
-//				userKycs.stream().filter(Objects::nonNull).filter(userKyc -> !"E".equals(userKyc.getPhrMigrated()))
-//						.forEach(userKyc -> {
-//							responseAsync.add(CompletableFuture.runAsync(() -> migrateUserKycData(userKyc)));
-//							CompletableFuture.runAsync(() -> migrateUserKycData(userKyc));
-//							migrationProcessHelper.migrate(userKyc);
-//						});
-//				size += limit;
-//				log.info("Total records processed till now {}.", size);
-//			}
-			log.info("{} records processed successfully.", size);
+			List<Object> userKycs = userEntityDataRepository.findAbhaAccounts(offset, limit);
+			offset += limit;
+			if (Objects.nonNull(userKycs)) {
+				userKycs.stream().forEach(user -> {
+					transform(user);
+				});
+
+			}
+
+			size += limit;
+			 log.info("Total records processed till now {}.", size);
 		}
+		log.info("{} records processed successfully.", size);
+	}
 
 //		responseAsync.parallelStream().forEach(response -> {
 //			try {
@@ -83,9 +87,9 @@ public class MigrationProcess {
 //			}
 //		});
 
-		log.info("Migration completed in {} ms.", (System.currentTimeMillis() - start));
-		log.info("Total records processed successfully {}.", total);
-	}
+	// log.info("Migration completed in {}
+	// ms.",(System.currentTimeMillis()-start));log.info("Total records processed
+	// successfully {}.",total);
 
 //	@Transactional
 //	public void migrateUserKycData(UserEntity userEntity) {
@@ -102,11 +106,20 @@ public class MigrationProcess {
 //		return kycData;
 //	}
 
-	private KycData saveUserKycData(KycData kycData) {
-		//String aadhaarNumber = AES.decrypt(kycData.getAadhaar(), aadhaarEncryptionKey);
-		//kycData.setAadhaar(aadhaarNumber);
-		
-		return kycData;
+	private UserEntity transform(Object object) {
+		return migrationProcess(hidCMTransformComponent.transform(object));
+	}
+
+	private UserEntity migrationProcess(UserEntity userEntity) {
+
+		PhrRequestPlayLoad phrRequestPlayLoad = hidPhrTransFormComponent.apply(userEntity);
+		String phrMigrate = migrationProcessHelper.migrate(phrRequestPlayLoad);
+		userEntityDataRepository.updateAbhaAccouts("N", phrMigrate, phrRequestPlayLoad.getHealthIdNumber());
+		ShareCMRequestPlayLoad shareCMRequestPlayLoad = hidCMTransformComponent
+				.transfromUserEntityToShareCM(userEntity);
+		String cmMigrate = migrationProcessHelper.migrate(shareCMRequestPlayLoad);
+		userEntityDataRepository.updateAbhaAccouts(cmMigrate, "N", shareCMRequestPlayLoad.getHealthIdNumber());
+		return userEntity;
 	}
 
 	public static void main(String[] args) {

@@ -55,7 +55,7 @@ public class UserEntity {
     
 	@Id
 	@GeneratedValue(generator = "luhn-generator")
-	@GenericGenerator(name = "luhn-generator", strategy = "com.parserlabs.health.common.HealthIdGenerator")
+	@GenericGenerator(name = "luhn-generator", strategy = "com.migration.migration.component.HealthIdGenerator")
 	private String healthIdNumber;
 
 	@Column(name = "origin")

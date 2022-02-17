@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.migration.migration.config.ClientConfiguration;
 import com.migration.migration.request.PhrRequestPlayLoad;
-import com.migration.migration.request.PhrResponsePlayLoad;
+import com.migration.migration.request.PhrResponse;
 
-@FeignClient(value = "migration-client", url = "${user.kyc.service.url}", configuration = ClientConfiguration.class)
+@FeignClient(value = "migration-client-phr", url = "${phr.id.service.url}", configuration = ClientConfiguration.class)
 public interface MigrationClient {
 
-	@PostMapping
-	PhrResponsePlayLoad saveUserKyc(PhrRequestPlayLoad phrRequestPlayLoad);
+	@PostMapping("/v1/phr/registration/create/phr/migration")
+	PhrResponse phrMigration(PhrRequestPlayLoad phrRequestPlayLoad);
 
 }

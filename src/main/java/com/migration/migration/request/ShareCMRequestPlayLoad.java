@@ -13,7 +13,7 @@ public class ShareCMRequestPlayLoad {
 	
 	private String healthIdNumber;
 	
-	private String healthId;
+	private String phrAddress;
 	
 	private String mobile;
 
@@ -22,8 +22,6 @@ public class ShareCMRequestPlayLoad {
 	private String middleName;
 	
 	private String lastName;
-	
-	private String name;
 	
 	private String yearOfBirth;
 	
@@ -37,11 +35,11 @@ public class ShareCMRequestPlayLoad {
 	
 	private String districtCode;
 	
-	private String pincode;
+	private String pinCode;
 	
 	private String address;
 	
-	private String stateName;
+	private String email;
 	
-	private String districtName;
+	
 }

@@ -19,6 +19,7 @@ public class HidPhrTransFormComponent implements Function<UserEntity, PhrRequest
 				.emailVerified(StringUtils.hasLength(userEntity.getEmail_verified())
 						? Boolean.getBoolean(userEntity.getEmail_verified())
 						: false)
+				.abhaAddress(userEntity.getHealthId())
 				.firstName(userEntity.getFirstName()).fullName(userEntity.getName()).gender(userEntity.getGender())
 				.lastName(userEntity.getLastName()).middleName(userEntity.getMiddleName())
 				.mobile(userEntity.getMobile())
@@ -27,6 +28,7 @@ public class HidPhrTransFormComponent implements Function<UserEntity, PhrRequest
 				.profilePhoto(userEntity.getProfilePhoto() != null ? userEntity.getProfilePhoto().toString()
 						: userEntity.getKycPhoto() != null ? userEntity.getKycPhoto().toString() : null)
 				.stateCode(userEntity.getStateCode()).status(userEntity.getStatus().name())
+				.healthIdNumber(userEntity.getHealthIdNumber())
 				.yearOfBirth(userEntity.getYearOfBirth()).build();
 	}
 	
