@@ -40,6 +40,11 @@ public class HidCMTransformComponent {
 			shareCMRequestPlayLoad.setDistrictCode(userEntity.getDistrictCode());
 			shareCMRequestPlayLoad.setPinCode(userEntity.getPincode());
 			shareCMRequestPlayLoad.setAddress(userEntity.getAddress());
+			shareCMRequestPlayLoad.setIsMigrated(true);
+			shareCMRequestPlayLoad.setEmailVerified(StringUtils.hasLength(userEntity.getEmail_verified()));
+			shareCMRequestPlayLoad.setMobileVerified(StringUtils.hasLength(userEntity.getMobile()));
+			shareCMRequestPlayLoad.setKycStatus(userEntity.isKycVerified()?"VERIFIED":"PENDING");
+			
 			
 		}
 
@@ -59,9 +64,19 @@ public class HidCMTransformComponent {
 		return phrAddress;
 	}
 
+	
+	public String transformHidToAbdm(String healthId)
+	{
+		if (healthId.endsWith("@ndhm"))
+		{
+			healthId = healthId.replace("@ndhm","@abdm");      	
+		}
+		return  healthId;
+	}
+	
 	public UserEntity transform(Object object) {
 		Object[] objects = (Object[]) object;
-		return UserEntity.builder().healthIdNumber(isNotEmpty(objects[0])).healthId(isNotEmpty(objects[1]))
+		return UserEntity.builder().healthIdNumber(isNotEmpty(objects[0])).healthId(transformHidToAbdm(isNotEmpty(objects[1])))
 				.password(isNotEmpty(objects[2])).name(isNotEmpty(objects[3])).firstName(isNotEmpty(objects[4]))
 				.lastName(isNotEmpty(objects[5])).middleName(isNotEmpty(objects[6])).mobile(isNotEmpty(objects[7]))
 				.email(isNotEmpty(objects[8])).gender(isNotEmpty(objects[9])).monthOfBirth(isNotEmpty(objects[10]))
