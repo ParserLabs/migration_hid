@@ -37,6 +37,5 @@ public class PhrRequestPlayLoad {
 	private String status;
 	private String yearOfBirth;
 	private boolean notify;
-	private String healthIdNumber;
-
+	private String abhaNumber;
 }

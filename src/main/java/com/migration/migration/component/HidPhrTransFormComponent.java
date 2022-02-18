@@ -24,11 +24,12 @@ public class HidPhrTransFormComponent implements Function<UserEntity, PhrRequest
 				.lastName(userEntity.getLastName()).middleName(userEntity.getMiddleName())
 				.mobile(userEntity.getMobile())
 				.mobileVerified(StringUtils.hasLength(userEntity.getMobile()) ? true : false)
-				.kycStatus(String.valueOf(userEntity.isKycVerified())).monthOfBirth(userEntity.getMonthOfBirth())
+				.kycStatus(userEntity.isKycVerified()?"VERIFIED":"PENDING")
+				.monthOfBirth(userEntity.getMonthOfBirth())
 				.profilePhoto(userEntity.getProfilePhoto() != null ? userEntity.getProfilePhoto().toString()
 						: userEntity.getKycPhoto() != null ? userEntity.getKycPhoto().toString() : null)
 				.stateCode(userEntity.getStateCode()).status(userEntity.getStatus().name())
-				.healthIdNumber(userEntity.getHealthIdNumber())
+				.abhaNumber(userEntity.getHealthIdNumber())
 				.yearOfBirth(userEntity.getYearOfBirth()).build();
 	}
 	

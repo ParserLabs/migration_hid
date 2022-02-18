@@ -32,4 +32,6 @@ public interface UserEntityDataRepository extends JpaRepository<UserEntity, Stri
 	int updateAbhaAccouts(@Param("cmMigrated") String cmMigrated, @Param("phrMigrated") String phrMigrated,
 			@Param("healthIdNumber") String healthIdNumber);
 
+	@Query(value = "select count(*) from accounts a inner join hid_phr_address h on a.health_id_number = h.health_id_number where h.status = 'ACTIVE' and h.preferred = 1 and h.phr_address IS NOT NULL and ( a.cm_migrated is NULL or a.cm_migrated='N' or a.phr_migrated is NULL or a.cm_migrated='N' )",nativeQuery = true)
+	long countABHA();
 }

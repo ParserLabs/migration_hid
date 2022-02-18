@@ -53,12 +53,12 @@ public class MigrationProcess {
 
 	@Async
 	public void start() {
-		long total = userEntityDataRepository.count();
+		long total = userEntityDataRepository.countABHA();
 		int page = 0;
 		int limit = 20;
 		long size = 0;
 		this.startMigration = true;
-		long offset = 1;
+		long offset = 0;
 
 		log.info("Total user kyc records in data base are {}", total);
 		long start = System.currentTimeMillis();
@@ -114,7 +114,7 @@ public class MigrationProcess {
 
 		PhrRequestPlayLoad phrRequestPlayLoad = hidPhrTransFormComponent.apply(userEntity);
 		String phrMigrate = migrationProcessHelper.migrate(phrRequestPlayLoad);
-		userEntityDataRepository.updateAbhaAccouts("N", phrMigrate, phrRequestPlayLoad.getHealthIdNumber());
+		userEntityDataRepository.updateAbhaAccouts("N", phrMigrate, phrRequestPlayLoad.getAbhaNumber());
 		ShareCMRequestPlayLoad shareCMRequestPlayLoad = hidCMTransformComponent
 				.transfromUserEntityToShareCM(userEntity);
 		String cmMigrate = migrationProcessHelper.migrate(shareCMRequestPlayLoad);
