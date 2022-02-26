@@ -36,7 +36,11 @@ public class MigrationProcessHelper {
 			migrationClient.phrMigration(phrRequestPlayLoad);
 		} catch (Exception e) {
 			success = "N";
+			
 			log.error("Exception occured While migrated to phr", e.getMessage());
+			if (log.isDebugEnabled()) {
+				log.debug("error trace ", e);
+				}	
 		}
 		if (log.isDebugEnabled()) {
 		log.debug("migrated is done {} ", phrRequestPlayLoad.getAbhaAddress());
@@ -57,6 +61,9 @@ public class MigrationProcessHelper {
 		} catch (Exception e) {
 			success = "N";
 			log.error("Exception occured While migrated to cm", e.getMessage());
+			if (log.isDebugEnabled()) {
+				log.debug("error trace ", e);
+				}	
 		}
 		if (log.isDebugEnabled())
 		{
