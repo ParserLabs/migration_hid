@@ -47,78 +47,78 @@ public class MigrationProcess {
 	@Autowired
 	private HidCMTransformComponent hidCMTransformComponent;
 
+	
+	@Value("${total.no.records.send:100}")
+	private int totalRecords;
+	
+	@Value("${record.offset:0}")
+	private long offset;
+	
+	@Value("${migration.batch.size:100}")
+	private int batchSize;
+
+	
 	public void stop() {
 		this.startMigration = false;
 	}
 
 	@Async
 	public void start() {
-		long total = userEntityDataRepository.countABHA();
-		int page = 0;
-		int limit = 20;
 		long size = 0;
 		this.startMigration = true;
-		long offset = 0;
 
-		log.info("Total user kyc records in data base are {}", total);
+		log.info("Total user kyc records in data base are {}", totalRecords);
 		long start = System.currentTimeMillis();
 		log.info("Migration started.");
-		while (this.startMigration && total > size) {
-			List<Object> userKycs = userEntityDataRepository.findAbhaAccounts(offset, limit);
-			offset += limit;
+		while (this.startMigration && totalRecords > size) {
+			List<Object> userKycs = userEntityDataRepository.findAbhaAccounts(offset, batchSize);
+				
+			offset += batchSize;
+			
 			if (Objects.nonNull(userKycs)) {
 				userKycs.stream().forEach(user -> {
-					transform(user);
+					try {
+						transform(user);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				});
 
 			}
-
-			size += limit;
+          
+			size += batchSize;
 			 log.info("Total records processed till now {}.", size);
 		}
 		log.info("{} records processed successfully.", size);
 	}
 
-//		responseAsync.parallelStream().forEach(response -> {
-//			try {
-//				response.get();
-//			} catch (InterruptedException | ExecutionException e) {
-//				log.info("Exception occured while migration.");
-//			}
-//		});
 
-	// log.info("Migration completed in {}
-	// ms.",(System.currentTimeMillis()-start));log.info("Total records processed
-	// successfully {}.",total);
-
-//	@Transactional
-//	public void migrateUserKycData(UserEntity userEntity) {
-//		
-//		 migrationClient.saveUserKyc(userEntity);
-//		 KycData kycDataResponse= null;
-//		if (Objects.nonNull(kycDataResponse)) {
-//			userEntity.setPhrMigrated("Y");
-//		} else if () {
-//			userEntity.setCmMigrated("Y");
-//		}
-//		
-//		 userEntityDataRepository.save(kycData);
-//		return kycData;
-//	}
-
-	private UserEntity transform(Object object) {
+	private UserEntity transform(Object object) throws InterruptedException {
+	
 		return migrationProcess(hidCMTransformComponent.transform(object));
+	
 	}
 
-	private UserEntity migrationProcess(UserEntity userEntity) {
+	private UserEntity migrationProcess(UserEntity userEntity) throws InterruptedException {
 
 		PhrRequestPlayLoad phrRequestPlayLoad = hidPhrTransFormComponent.apply(userEntity);
-		String phrMigrate = migrationProcessHelper.migrate(phrRequestPlayLoad);
-		userEntityDataRepository.updateAbhaAccouts("N", phrMigrate, phrRequestPlayLoad.getAbhaNumber());
 		ShareCMRequestPlayLoad shareCMRequestPlayLoad = hidCMTransformComponent
 				.transfromUserEntityToShareCM(userEntity);
-		String cmMigrate = migrationProcessHelper.migrate(shareCMRequestPlayLoad);
-		userEntityDataRepository.updateAbhaAccouts(cmMigrate, "N", shareCMRequestPlayLoad.getHealthIdNumber());
+		
+		migrationProcessHelper.migrate(phrRequestPlayLoad)
+				                            .thenAccept(phrMigrateStatus -> {
+				                           userEntityDataRepository.updateAbhaAccouts(null,
+				                        		                                       phrMigrateStatus,
+				                        		                                       phrRequestPlayLoad.getAbhaNumber()
+				                        		                                     );
+				                            });
+		
+		migrationProcessHelper.migrate(shareCMRequestPlayLoad)
+				                            .thenAccept(cmMigrateStatus -> {
+				                        		userEntityDataRepository.updateAbhaAccouts(cmMigrateStatus, null, shareCMRequestPlayLoad.getHealthIdNumber());				                            	
+				                            });
+
 		return userEntity;
 	}
 

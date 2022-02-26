@@ -23,7 +23,6 @@ public interface UserEntityDataRepository extends JpaRepository<UserEntity, Stri
 			+ " where h.status = 'ACTIVE'\n"
 			+ "and h.preferred = 1 and h.phr_address  IS NOT NULL  and ( a.cm_migrated is NULL or a.cm_migrated='N'\n"
 			+ " or a.phr_migrated is NULL or a.cm_migrated='N')order by h.created_date asc OFFSET :offset limit :limit", nativeQuery = true)
-
 	List<Object> findAbhaAccounts(@Param("offset") long offset, @Param("limit") int limit);
 
 	@Transactional

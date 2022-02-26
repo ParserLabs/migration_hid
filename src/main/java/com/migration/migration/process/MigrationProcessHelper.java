@@ -1,6 +1,10 @@
 package com.migration.migration.process;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.migration.migration.proxy.CMMigrationClient;
@@ -19,33 +23,46 @@ public class MigrationProcessHelper {
 
 	@Autowired
 	private CMMigrationClient cMMigrationClient;
+    
 
-	public String migrate(PhrRequestPlayLoad phrRequestPlayLoad) {
-		log.info("migrate to phr {} ", phrRequestPlayLoad);
+	@Async("IO_Thread_Executor")
+	public CompletableFuture<String> migrate(PhrRequestPlayLoad phrRequestPlayLoad) throws InterruptedException {
+		if (log.isDebugEnabled())
+		{
+		log.debug("migrate to phr {} and thread name {}", phrRequestPlayLoad,Thread.currentThread().getName());
+		}
 		String success = "Y";
 		try {
 			migrationClient.phrMigration(phrRequestPlayLoad);
 		} catch (Exception e) {
 			success = "N";
-			log.error("Exception occured While migrated to phr", e);
+			log.error("Exception occured While migrated to phr", e.getMessage());
 		}
-		log.info("migrated is done {} ", phrRequestPlayLoad.getAbhaAddress());
-		return success;
+		if (log.isDebugEnabled()) {
+		log.debug("migrated is done {} ", phrRequestPlayLoad.getAbhaAddress());
+		}
+		return CompletableFuture.completedFuture(success);
 	}
 
-	public String migrate(ShareCMRequestPlayLoad shareCMRequestPlayLoad) {
-		log.info("migrate to cm {} ", shareCMRequestPlayLoad);
+	@Async("IO_Thread_Executor")
+	public CompletableFuture<String> migrate(ShareCMRequestPlayLoad shareCMRequestPlayLoad) throws InterruptedException {
+		if (log.isDebugEnabled())
+		{
+		log.debug("migrate to cm {} thread name {} ", shareCMRequestPlayLoad,Thread.currentThread().getName());
+		}
 		String success = "Y";
 		try {
 
 			cMMigrationClient.shareCMProfile(shareCMRequestPlayLoad);
 		} catch (Exception e) {
 			success = "N";
-			log.error("Exception occured While migrated to cm", e);
+			log.error("Exception occured While migrated to cm", e.getMessage());
 		}
-		log.info("migrated is done {} ", shareCMRequestPlayLoad.getPhrAddress());
-		return success;
-
+		if (log.isDebugEnabled())
+		{
+		log.debug("migrated is done {} ", shareCMRequestPlayLoad.getPhrAddress());
+		}
+		return CompletableFuture.completedFuture("N");
 	}
 
 }
