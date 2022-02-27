@@ -34,16 +34,13 @@ public class MigrationProcessHelper {
 		String success = "Y";
 		try {
 			migrationClient.phrMigration(phrRequestPlayLoad);
+			log.debug("****** migrated is done for PHR {} ********", phrRequestPlayLoad.getAbhaAddress());
+
 		} catch (Exception e) {
 			success = "N";
 			
 			log.error("Exception occured While migrated to phr", e.getMessage());
-			if (log.isDebugEnabled()) {
 				log.debug("error trace ", e);
-				}	
-		}
-		if (log.isDebugEnabled()) {
-		log.debug("migrated is done {} ", phrRequestPlayLoad.getAbhaAddress());
 		}
 		return CompletableFuture.completedFuture(success);
 	}
@@ -58,17 +55,15 @@ public class MigrationProcessHelper {
 		try {
 
 			cMMigrationClient.shareCMProfile(shareCMRequestPlayLoad);
+			log.debug("***migrated is done for CM {} *******", shareCMRequestPlayLoad.getPhrAddress());
+
 		} catch (Exception e) {
 			success = "N";
 			log.error("Exception occured While migrated to cm", e.getMessage());
-			if (log.isDebugEnabled()) {
-				log.debug("error trace ", e);
-				}	
+		    log.debug("error trace ", e);
+			
 		}
-		if (log.isDebugEnabled())
-		{
-		log.debug("migrated is done {} ", shareCMRequestPlayLoad.getPhrAddress());
-		}
+		
 		return CompletableFuture.completedFuture("N");
 	}
 
