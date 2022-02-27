@@ -11,10 +11,12 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.type.filter.AbstractClassTestingTypeFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.migration.migration.component.HidCMTransformComponent;
 import com.migration.migration.component.HidPhrTransFormComponent;
@@ -104,7 +106,17 @@ public class MigrationProcess {
 	}
 
 	private UserEntity migrationProcess(UserEntity userEntity) throws InterruptedException {
-
+		if( StringUtils.hasLength(userEntity.getMobile()) && userEntity.getMobile().length() > 10 )
+		{
+			String text = userEntity.getMobile();
+			userEntity.setMobile(text.substring(text.length() - 10, text.length()) );	
+		}
+		
+		if (StringUtils.hasLength(userEntity.getFirstName()) && userEntity.getFirstName().length() < 1)
+		{
+			return userEntity;
+		}	
+		
 		PhrRequestPlayLoad phrRequestPlayLoad = hidPhrTransFormComponent.apply(userEntity);
 		ShareCMRequestPlayLoad shareCMRequestPlayLoad = hidCMTransformComponent
 				.transfromUserEntityToShareCM(userEntity);
