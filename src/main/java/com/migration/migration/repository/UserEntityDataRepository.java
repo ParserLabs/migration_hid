@@ -17,7 +17,7 @@ public interface UserEntityDataRepository extends JpaRepository<UserEntity, Stri
 			+ "a.mobile,a.email,a.gender,a.month_of_birth,a.day_of_birth,\n"
 			+ "a.year_of_birth,a.profile_photo,a.kyc_photo, a.status,h.created_date,\n"
 			+ "h.created_by,h.last_modified_date as updated_date,\n"
-			+ "h.last_modified_by as updated_by,a.state_code, a.district_code, a.address, auth.auth_methods  from accounts a "
+			+ "h.last_modified_by as updated_by,a.state_code, a.district_code, a.address, auth.auth_methods , a.cm_migrated , a.phr_migrated  from accounts a "
 			+ "inner join hid_phr_address h on a.health_id_number = h.health_id_number "
 			+ "inner join (SELECT health_id_number, string_agg(auth_methods, ',') as auth_methods FROM account_auth_methods group by health_id_number) auth on a.health_id_number = auth.health_id_number"
 			+ " where h.status = 'ACTIVE'\n"

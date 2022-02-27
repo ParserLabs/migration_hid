@@ -64,7 +64,7 @@ public class MigrationProcessHelper {
 			
 		}
 		
-		return CompletableFuture.completedFuture("N");
+		return CompletableFuture.completedFuture(success);
 	}
 
 }

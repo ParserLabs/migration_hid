@@ -87,7 +87,10 @@ public class HidCMTransformComponent {
 				// .updateDate(convertLocalDateTime(isNotEmpty(objects[18])))
 				.lastUpdatedBy(isNotEmpty(objects[19])).stateCode(isNotEmpty(objects[20]))
 				.districtCode(isNotEmpty(objects[21])).address(isNotEmpty(objects[22]))
-				.authMethods(authMethod(isNotEmpty(objects[23]))).build();
+				.authMethods(authMethod(isNotEmpty(objects[23])))
+				.cmMigrated(isNotEmpty(objects[24]))
+				.phrMigrated(isNotEmpty(objects[25]))
+				.build();
 
 	}
 

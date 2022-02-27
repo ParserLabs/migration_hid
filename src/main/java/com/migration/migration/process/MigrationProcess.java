@@ -109,18 +109,25 @@ public class MigrationProcess {
 		ShareCMRequestPlayLoad shareCMRequestPlayLoad = hidCMTransformComponent
 				.transfromUserEntityToShareCM(userEntity);
 		
+		if (!"Y".equalsIgnoreCase(userEntity.getPhrMigrated()))
+		{	
 		migrationProcessHelper.migrate(phrRequestPlayLoad)
 				                            .thenAccept(phrMigrateStatus -> {
+				                            	
 				                           userEntityDataRepository.updateAbhaAccoutsForPHR(
 				                        		                                       phrMigrateStatus,
 				                        		                                       phrRequestPlayLoad.getAbhaNumber()
 				                        		                                     );
 				                            });
-		
+		}
+		if (!"Y".equalsIgnoreCase(userEntity.getCmMigrated()))
+		{
 		migrationProcessHelper.migrate(shareCMRequestPlayLoad)
 				                            .thenAccept(cmMigrateStatus -> {
+				                            	
 				                        		userEntityDataRepository.updateAbhaAccoutsForCM(cmMigrateStatus, shareCMRequestPlayLoad.getHealthIdNumber());				                            	
 				                            });
+		}
 
 		return userEntity;
 	}
