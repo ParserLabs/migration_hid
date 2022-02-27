@@ -108,7 +108,7 @@ public class MigrationProcess {
 		
 		migrationProcessHelper.migrate(phrRequestPlayLoad)
 				                            .thenAccept(phrMigrateStatus -> {
-				                           userEntityDataRepository.updateAbhaAccouts(null,
+				                           userEntityDataRepository.updateAbhaAccoutsForPHR(
 				                        		                                       phrMigrateStatus,
 				                        		                                       phrRequestPlayLoad.getAbhaNumber()
 				                        		                                     );
@@ -116,7 +116,7 @@ public class MigrationProcess {
 		
 		migrationProcessHelper.migrate(shareCMRequestPlayLoad)
 				                            .thenAccept(cmMigrateStatus -> {
-				                        		userEntityDataRepository.updateAbhaAccouts(cmMigrateStatus, null, shareCMRequestPlayLoad.getHealthIdNumber());				                            	
+				                        		userEntityDataRepository.updateAbhaAccoutsForCM(cmMigrateStatus, shareCMRequestPlayLoad.getHealthIdNumber());				                            	
 				                            });
 
 		return userEntity;
