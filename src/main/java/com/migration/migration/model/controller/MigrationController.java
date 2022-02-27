@@ -19,7 +19,7 @@ public class MigrationController {
 	private MigrationProcess migrationProcess;
 
 	@GetMapping("/start")
-	public ResponseEntity<Void> start() {
+	public ResponseEntity<Void> start() throws InterruptedException {
 		migrationProcess.start();
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

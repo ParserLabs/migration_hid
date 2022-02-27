@@ -64,7 +64,7 @@ public class MigrationProcess {
 	}
 
 	@Async
-	public void start() {
+	public void start() throws InterruptedException {
 		long size = 0;
 		this.startMigration = true;
 
@@ -81,7 +81,7 @@ public class MigrationProcess {
 					try {
 						transform(user);
 					    
-						TimeUnit.SECONDS.sleep(5);
+						
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -89,7 +89,7 @@ public class MigrationProcess {
 				});
 
 			}
-			
+			TimeUnit.SECONDS.sleep(5);			
 			size += batchSize;
 			 log.info("Total records processed till now {}.", size);
 		}
