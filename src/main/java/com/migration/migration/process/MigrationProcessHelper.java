@@ -40,7 +40,7 @@ public class MigrationProcessHelper {
 			success = "N";
 			
 			log.error("Exception occured While migrated to phr", e.getMessage());
-				log.debug("error trace ", e);
+			log.info("error trace ", e);
 		}
 		return CompletableFuture.completedFuture(success);
 	}
@@ -55,7 +55,7 @@ public class MigrationProcessHelper {
 		try {
 
 			cMMigrationClient.shareCMProfile(shareCMRequestPlayLoad);
-			log.debug("***migrated is done for CM {} *******", shareCMRequestPlayLoad.getPhrAddress());
+			log.info("***migrated is done for CM {} *******", shareCMRequestPlayLoad.getPhrAddress());
 
 		} catch (Exception e) {
 			success = "N";
