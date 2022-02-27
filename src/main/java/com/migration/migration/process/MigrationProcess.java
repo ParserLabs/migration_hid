@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import javax.transaction.Transactional;
 
@@ -79,6 +80,8 @@ public class MigrationProcess {
 				userKycs.stream().forEach(user -> {
 					try {
 						transform(user);
+					    
+						TimeUnit.SECONDS.sleep(5);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -86,7 +89,7 @@ public class MigrationProcess {
 				});
 
 			}
-          
+			
 			size += batchSize;
 			 log.info("Total records processed till now {}.", size);
 		}
