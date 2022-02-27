@@ -39,7 +39,8 @@ public class MigrationProcessHelper {
 		} catch (Exception e) {
 			success = "N";
 			
-			log.error("Exception occured While migrated to phr", e.getMessage());
+			log.error("#######Exception occured While migrated to PHR AbhaAddress {} AbhaNumber {}#######", phrRequestPlayLoad.getAbhaAddress(),phrRequestPlayLoad.getAbhaNumber());
+			 log.info("Payload {}",phrRequestPlayLoad.toString());
 			log.info("error trace ", e);
 		}
 		return CompletableFuture.completedFuture(success);
@@ -59,8 +60,9 @@ public class MigrationProcessHelper {
 
 		} catch (Exception e) {
 			success = "N";
-			log.error("Exception occured While migrated to cm", e.getMessage());
-		    log.debug("error trace ", e);
+			log.error("#######Exception occured While migrated to CM AbhaAddress {} AbhaNumber {}####### ",shareCMRequestPlayLoad.getPhrAddress(),shareCMRequestPlayLoad.getHealthIdNumber());
+		    log.info("Payload {}",shareCMRequestPlayLoad.toString());
+			log.info("error trace ", e);
 			
 		}
 		
