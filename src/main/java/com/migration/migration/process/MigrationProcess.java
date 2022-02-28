@@ -114,7 +114,14 @@ public class MigrationProcess {
 		
 		if (StringUtils.hasLength(userEntity.getFirstName()) && userEntity.getFirstName().length() < 1)
 		{
-			return userEntity;
+			if (StringUtils.hasLength(userEntity.getName()) && userEntity.getFirstName().length() < 1)
+			{
+				return userEntity;
+			}
+			else
+			{
+				userEntity.setFirstName(userEntity.getName());			
+			}	
 		}	
 		
 		PhrRequestPlayLoad phrRequestPlayLoad = hidPhrTransFormComponent.apply(userEntity);
