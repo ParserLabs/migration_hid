@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.type.filter.AbstractClassTestingTypeFilter;
@@ -112,6 +113,13 @@ public class MigrationProcess {
 			userEntity.setMobile(text.substring(text.length() - 10, text.length()) );	
 		}
 		
+		if (!StringUtils.hasLength(userEntity.getStateCode()) || !StringUtils.hasLength(userEntity.getDistrictCode()) || !NumberUtils.isNumber(userEntity.getStateCode()) || !NumberUtils.isNumber(userEntity.getDistrictCode())  )
+		{
+			userEntity.setStateCode(null);
+			userEntity.setDistrictCode(null);			
+		
+	    }
+	
 		if (StringUtils.hasLength(userEntity.getFirstName()) && userEntity.getFirstName().length() < 1)
 		{
 			if (StringUtils.hasLength(userEntity.getName()) && userEntity.getFirstName().length() < 1)
