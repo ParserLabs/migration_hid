@@ -147,14 +147,14 @@ public class MigrationProcess {
 				                        		                                     );
 				                            });
 		}
-		if (!"Y".equalsIgnoreCase(userEntity.getCmMigrated()))
-		{
-		migrationProcessHelper.migrate(shareCMRequestPlayLoad)
-				                            .thenAccept(cmMigrateStatus -> {
-				                            	
-				                        		userEntityDataRepository.updateAbhaAccoutsForCM(cmMigrateStatus, shareCMRequestPlayLoad.getHealthIdNumber());				                            	
-				                            });
-		}
+//		if (!"Y".equalsIgnoreCase(userEntity.getCmMigrated()))
+//		{
+//		migrationProcessHelper.migrate(shareCMRequestPlayLoad)
+//				                            .thenAccept(cmMigrateStatus -> {
+//				                            	
+//				                        		userEntityDataRepository.updateAbhaAccoutsForCM(cmMigrateStatus, shareCMRequestPlayLoad.getHealthIdNumber());				                            	
+//				                            });
+//		}
 
 		return userEntity;
 	}
