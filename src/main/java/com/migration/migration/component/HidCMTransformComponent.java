@@ -76,7 +76,7 @@ public class HidCMTransformComponent {
 	
 	public UserEntity transform(Object object) {
 		Object[] objects = (Object[]) object;
-		return UserEntity.builder().healthIdNumber(isNotEmpty(objects[0])).healthId(transformHidToAbdm(isNotEmpty(objects[1])))
+		return UserEntity.builder().healthIdNumber(isNotEmpty(objects[0])).healthId(isNotEmpty(objects[1]))
 				.password(isNotEmpty(objects[2])).name(isNotEmpty(objects[3])).firstName(isNotEmpty(objects[4]))
 				.lastName(isNotEmpty(objects[5])).middleName(isNotEmpty(objects[6])).mobile(isNotEmpty(objects[7]))
 				.email(isNotEmpty(objects[8])).gender(isNotEmpty(objects[9])).monthOfBirth(isNotEmpty(objects[10]))
