@@ -14,7 +14,7 @@ public class HidPhrTransFormComponent implements Function<UserEntity, PhrRequest
 	@Override
 	public PhrRequestPlayLoad apply(UserEntity userEntity) {
 		return PhrRequestPlayLoad.builder().addressLine(userEntity.getAddress())
-				.authMethods(userEntity.getAuthMethods()).dayofbirth(userEntity.getDayOfBirth())
+				.authMethods(userEntity.getAuthMethods()).dayOfbirth(userEntity.getDayOfBirth())
 				.districtCode(userEntity.getDistrictCode()).email(userEntity.getEmail())
 				.emailVerified(StringUtils.hasLength(userEntity.getEmail_verified())
 						? Boolean.getBoolean(userEntity.getEmail_verified())
