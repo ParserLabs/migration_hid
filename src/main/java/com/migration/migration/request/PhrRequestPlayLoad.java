@@ -17,7 +17,7 @@ public class PhrRequestPlayLoad {
 	private String addressLine;
 	private Set<AuthMethods> authMethods;
 	private String countryCode;
-	private String dayofbirth;
+	private String dayOfbirth;
 	private String districtCode;
 	private String email;
 	private boolean emailVerified;
