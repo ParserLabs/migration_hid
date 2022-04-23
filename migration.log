@@ -1,0 +1,75 @@
+2022-04-23 17:15:47.664  INFO 29326 --- [main] EnableEncryptablePropertiesConfiguration : Bootstraping jasypt-string-boot auto configuration in context: application-1
+2022-04-23 17:15:47.677  INFO 29326 --- [main] c.m.migration.MigrationApplication       : The following profiles are active: beta
+2022-04-23 17:15:49.506  INFO 29326 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2022-04-23 17:15:49.829  INFO 29326 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 295ms. Found 1 repository interfaces.
+2022-04-23 17:15:50.967  INFO 29326 --- [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=b425a596-7766-3247-8ba9-81c5d9c11672
+2022-04-23 17:15:51.089  INFO 29326 --- [main] ptablePropertiesBeanFactoryPostProcessor : Post-processing PropertySource instances
+2022-04-23 17:15:51.148  INFO 29326 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2022-04-23 17:15:51.148  INFO 29326 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource servletConfigInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2022-04-23 17:15:51.149  INFO 29326 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource servletContextInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2022-04-23 17:15:51.149  INFO 29326 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2022-04-23 17:15:51.149  INFO 29326 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableMapPropertySourceWrapper
+2022-04-23 17:15:51.149  INFO 29326 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2022-04-23 17:15:51.149  INFO 29326 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource applicationConfig: [classpath:/application-beta.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2022-04-23 17:15:51.149  INFO 29326 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource applicationConfig: [classpath:/application.properties] [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2022-04-23 17:15:51.149  INFO 29326 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource springCloudClientHostInfo [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2022-04-23 17:15:51.149  INFO 29326 --- [main] c.u.j.EncryptablePropertySourceConverter : Converting PropertySource defaultProperties [org.springframework.core.env.MapPropertySource] to EncryptableMapPropertySourceWrapper
+2022-04-23 17:15:51.634  INFO 29326 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$da4ebf67] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-04-23 17:15:51.786  INFO 29326 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$f668c264] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-04-23 17:15:51.933  INFO 29326 --- [main] c.u.j.r.DefaultLazyPropertyResolver      : Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2022-04-23 17:15:51.948  INFO 29326 --- [main] c.u.j.d.DefaultLazyPropertyDetector      : Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2022-04-23 17:15:53.460  INFO 29326 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8083 (http)
+2022-04-23 17:15:53.554  INFO 29326 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-04-23 17:15:53.554  INFO 29326 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.21]
+2022-04-23 17:15:53.997  INFO 29326 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/api]    : Initializing Spring embedded WebApplicationContext
+2022-04-23 17:15:53.997  INFO 29326 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 6232 ms
+2022-04-23 17:15:55.049  INFO 29326 --- [main] com.zaxxer.hikari.HikariDataSource       : migration-pool - Starting...
+2022-04-23 17:15:55.265  INFO 29326 --- [main] com.zaxxer.hikari.HikariDataSource       : migration-pool - Start completed.
+2022-04-23 17:15:55.467  INFO 29326 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2022-04-23 17:15:55.638  INFO 29326 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.3.10.Final}
+2022-04-23 17:15:55.640  INFO 29326 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2022-04-23 17:15:55.972  INFO 29326 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2022-04-23 17:15:56.323  INFO 29326 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2022-04-23 17:15:56.352  INFO 29326 --- [main] o.h.e.j.e.i.LobCreatorBuilderImpl        : HHH000422: Disabling contextual LOB creation as connection was null
+2022-04-23 17:15:56.377  INFO 29326 --- [main] org.hibernate.type.BasicTypeRegistry     : HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@43c57161
+2022-04-23 17:16:01.807  WARN 29326 --- [main] org.hibernate.id.UUIDHexGenerator        : HHH000409: Using org.hibernate.id.UUIDHexGenerator which does not generate IETF RFC 4122 compliant UUID values; consider using org.hibernate.id.UUIDGenerator instead
+2022-04-23 17:16:03.770  INFO 29326 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-04-23 17:16:03.864  INFO 29326 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : String Encryptor custom Bean not found with name 'jasyptStringEncryptor'. Initializing Default String Encryptor
+2022-04-23 17:16:03.875  INFO 29326 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.algorithm, using default value: PBEWithMD5AndDES
+2022-04-23 17:16:03.876  INFO 29326 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.keyObtentionIterations, using default value: 1000
+2022-04-23 17:16:03.876  INFO 29326 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.poolSize, using default value: 1
+2022-04-23 17:16:03.876  INFO 29326 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.providerName, using default value: null
+2022-04-23 17:16:03.876  INFO 29326 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.providerClassName, using default value: null
+2022-04-23 17:16:03.876  INFO 29326 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.saltGeneratorClassname, using default value: org.jasypt.salt.RandomSaltGenerator
+2022-04-23 17:16:03.877  INFO 29326 --- [main] c.u.j.encryptor.DefaultLazyEncryptor     : Encryptor config not found for property jasypt.encryptor.stringOutputType, using default value: base64
+2022-04-23 17:16:04.305  INFO 29326 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService
+2022-04-23 17:16:04.320  INFO 29326 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'IO_Thread_Executor'
+2022-04-23 17:16:06.345  INFO 29326 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService
+2022-04-23 17:16:06.348  INFO 29326 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'IO_Thread_Executor'
+2022-04-23 17:16:06.482  WARN 29326 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'migrationController' defined in file [/Users/ameynaik/WorkSpace/migration_hid/target/classes/com/migration/migration/model/controller/MigrationController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'migrationProcess': Unsatisfied dependency expressed through field 'hidPhrProfilePhotoTransFormComponent'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.migration.migration.process.HidPhrProfilePhotoTransFormComponent' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2022-04-23 17:16:06.490  INFO 29326 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'IO_Thread_Executor'
+2022-04-23 17:16:06.493  INFO 29326 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'IO_Thread_Executor'
+2022-04-23 17:16:06.493  INFO 29326 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-04-23 17:16:06.504  INFO 29326 --- [main] com.zaxxer.hikari.HikariDataSource       : migration-pool - Shutdown initiated...
+2022-04-23 17:16:06.532  INFO 29326 --- [main] com.zaxxer.hikari.HikariDataSource       : migration-pool - Shutdown completed.
+2022-04-23 17:16:06.534  INFO 29326 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-04-23 17:16:06.576  INFO 29326 --- [main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-04-23 17:16:06.898 ERROR 29326 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field hidPhrProfilePhotoTransFormComponent in com.migration.migration.process.MigrationProcess required a bean of type 'com.migration.migration.process.HidPhrProfilePhotoTransFormComponent' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.migration.migration.process.HidPhrProfilePhotoTransFormComponent' in your configuration.
+

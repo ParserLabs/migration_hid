@@ -1,5 +1,6 @@
 package com.migration.migration.process;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -7,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import com.migration.migration.entity.UserEntity;
 import com.migration.migration.proxy.CMMigrationClient;
 import com.migration.migration.proxy.MigrationClient;
 import com.migration.migration.request.PhrRequestPlayLoad;
+import com.migration.migration.request.PhrUpdatePhotoProfileRequest;
 import com.migration.migration.request.ShareCMRequestPlayLoad;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +47,26 @@ public class MigrationProcessHelper {
 			log.info("error trace ", e);
 		}
 		return CompletableFuture.completedFuture(success);
+   }
+	
+	@Async("IO_Thread_Executor")
+	public CompletableFuture<Integer> migrate(PhrUpdatePhotoProfileRequest phrRequestPlayLoad) throws InterruptedException {
+		
+		Integer success = 1;
+		try {
+			migrationClient.phrPhotoMigration(phrRequestPlayLoad);
+			log.debug("****** migrated is done for PHR {} and HealthId {}********",phrRequestPlayLoad.getPhrAddress(), phrRequestPlayLoad.getHealthIdNumber());
+
+		} catch (Exception e) {
+			success = 0;
+			
+			log.error("#######Exception occured While migrated to PHR AbhaAddress {} AbhaNumber {}#######", phrRequestPlayLoad.getPhrAddress(),phrRequestPlayLoad.getHealthIdNumber());
+			 log.info("Payload {}",phrRequestPlayLoad.toString());
+			log.info("error trace ", e);
+		}
+		return CompletableFuture.completedFuture(success);
 	}
+
 
 	@Async("IO_Thread_Executor")
 	public CompletableFuture<String> migrate(ShareCMRequestPlayLoad shareCMRequestPlayLoad) throws InterruptedException {
@@ -68,5 +90,7 @@ public class MigrationProcessHelper {
 		
 		return CompletableFuture.completedFuture(success);
 	}
+
+	
 
 }

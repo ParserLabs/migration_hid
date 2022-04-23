@@ -26,6 +26,7 @@ import com.migration.migration.entity.UserEntity;
 import com.migration.migration.proxy.MigrationClient;
 import com.migration.migration.repository.UserEntityDataRepository;
 import com.migration.migration.request.PhrRequestPlayLoad;
+import com.migration.migration.request.PhrUpdatePhotoProfileRequest;
 import com.migration.migration.request.ShareCMRequestPlayLoad;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,8 @@ public class MigrationProcess {
 	private MigrationProcessHelper migrationProcessHelper;
 	@Autowired
 	private HidPhrTransFormComponent hidPhrTransFormComponent;
+	@Autowired
+	private HidPhrProfilePhotoTransFormComponent hidPhrProfilePhotoTransFormComponent;
 	@Autowired
 	private HidCMTransformComponent hidCMTransformComponent;
 
@@ -75,14 +78,17 @@ public class MigrationProcess {
 		long start = System.currentTimeMillis();
 		log.info("Migration started.");
 		while (this.startMigration && totalRecords > size) {
-			List<Object> userKycs = userEntityDataRepository.findAbhaAccounts(offset, batchSize);
+			List<Object> userKycs = userEntityDataRepository.findHealthIdNumberAndPhrAddress(offset, batchSize);
 				
 			offset += batchSize;
 			
 			if (Objects.nonNull(userKycs)) {
 				userKycs.stream().forEach(user -> {
 					try {
-						transform(user);
+						String healthIdNumber =  transformPhoto(user).get(2);
+						String phrAddress      =  transformPhoto(user).get(1);
+						Object profilePhoto = userEntityDataRepository.getProfilePhoto(healthIdNumber);
+						transform(profilePhoto,healthIdNumber,phrAddress);
 					    
 						
 					} catch (InterruptedException e) {
@@ -100,12 +106,42 @@ public class MigrationProcess {
 	}
 
 
+	private void transform(Object profilePhoto, String healthIdNumber, String phrAddress) throws InterruptedException {
+		// TODO Auto-generated method stub
+		UserEntity userEntObject = hidCMTransformComponent.transform(profilePhoto);
+		userEntObject.setHealthId(phrAddress);		
+		newmigrationProcess(userEntObject);
+	}
+
 	private UserEntity transform(Object object) throws InterruptedException {
 	
 		return migrationProcess(hidCMTransformComponent.transform(object));
 	
 	}
 
+	private List<String> transformPhoto(Object object)  {
+		
+		return hidCMTransformComponent.tranformHealthIdObject(object);
+	
+	}
+
+	private void newmigrationProcess(UserEntity userEntity) throws InterruptedException {
+		
+		
+		PhrUpdatePhotoProfileRequest phrRequestPlayLoad = hidPhrProfilePhotoTransFormComponent.apply(userEntity);
+		
+		
+				migrationProcessHelper.migrate(phrRequestPlayLoad)
+				                            .thenAccept(phrMigrateStatus -> {
+				                            	
+				                           userEntityDataRepository.update_dto_profile_photo (
+				                        		                                       phrMigrateStatus,
+				                        		                                       phrRequestPlayLoad.getHealthIdNumber());
+				                            });
+		}
+
+
+	
 	private UserEntity migrationProcess(UserEntity userEntity) throws InterruptedException {
 		if( StringUtils.hasLength(userEntity.getMobile()) && userEntity.getMobile().length() > 10 )
 		{
