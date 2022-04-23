@@ -85,8 +85,8 @@ public class MigrationProcess {
 			if (Objects.nonNull(userKycs)) {
 				userKycs.stream().forEach(user -> {
 					try {
-						String healthIdNumber =  transformPhoto(user).get(2);
-						String phrAddress      =  transformPhoto(user).get(1);
+						String healthIdNumber =  transformPhoto(user).get(1);
+						String phrAddress      =  transformPhoto(user).get(0);
 						Object profilePhoto = userEntityDataRepository.getProfilePhoto(healthIdNumber);
 						transform(profilePhoto,healthIdNumber,phrAddress);
 					    

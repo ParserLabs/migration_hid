@@ -15,7 +15,7 @@ public class HidPhrProfilePhotoTransFormComponent implements Function<UserEntity
 	@Override
 	public PhrUpdatePhotoProfileRequest apply(UserEntity t) {
 		return PhrUpdatePhotoProfileRequest.builder()
-				                           .healthIdNumber(t.getHealthId())
+				                           .phrAddress(t.getHealthId())
 				                           .healthIdNumber(t.getHealthIdNumber())				                           .profilePhoto(t.getProfilePhoto())
 				                           .profilePhotoCompressed(t.isProfilePhotoCompressed())
 				                           .build();

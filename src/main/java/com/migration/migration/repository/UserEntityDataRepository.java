@@ -41,7 +41,7 @@ public interface UserEntityDataRepository extends JpaRepository<UserEntity, Stri
 	@Query(value = "select id ,phr_address , health_id_number , migrated from dto_profile_photo2 where migrated = 0 order by id  OFFSET :offset limit :limit" ,nativeQuery = true)
 	List<Object> findHealthIdNumberAndPhrAddress(@Param("offset") long offset, @Param("limit") int limit);
 	
-	@Query(value = "select a.health_id_number, a.profile_photo , a.kyc_photo , a.profile_photo_compressed   from accounts where health_id_number=?1 ",nativeQuery = true)
+	@Query(value = "select a.health_id_number, a.profile_photo , a.kyc_photo , a.profile_photo_compressed   from accounts a where health_id_number=?1 ",nativeQuery = true)
 	Object getProfilePhoto(@Param("healthIdNumber") String healthIdNumber);
 	
 	@Transactional
