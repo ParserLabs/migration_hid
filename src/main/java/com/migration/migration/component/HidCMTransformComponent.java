@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -18,6 +19,7 @@ import com.migration.migration.entity.UserEntity;
 import com.migration.migration.enums.AccountStatus;
 import com.migration.migration.enums.AuthMethods;
 import com.migration.migration.request.ShareCMRequestPlayLoad;
+import com.migration.migration.utils.ImageUtils;
 
 @Component
 public class HidCMTransformComponent {
@@ -92,16 +94,32 @@ public class HidCMTransformComponent {
 //				.cmMigrated(isNotEmpty(objects[24]))
 //				.phrMigrated(isNotEmpty(objects[25]))
 //				.build();
-
-		return UserEntity.builder()
-				.healthIdNumber(isNotEmpty(objects[0]))
-				.profilePhoto(isNotEmpty(objects[1]))
-				.kycPhoto(photo(objects[2]))
-				.profilePhotoCompressed(Boolean.parseBoolean(isNotEmpty(objects[3])))
-				.build();		
+//        String profilePhoto = isNotEmpty(objects[1]);
+//		boolean profilePhotoCompress = Boolean.parseBoolean(isNotEmpty(objects[3]));
+//		
+//		if (StringUtils.isEmpty(profilePhoto)) {
+//			if (profilePhotoCompress) {
+//				profilePhoto = bytesToString(ImageUtils.decompress(profilePhoto.getBytes()));
+//			} else {
+//				profilePhoto = bytesToString(profilePhoto.getBytes());
+//			}
+//		}
+//		
+		return null;
+//				UserEntity.builder()
+//				.healthIdNumber(isNotEmpty(objects[0]))
+//				//.profilePhoto(isNotEmpty(objects[1]))
+//				.kycPhoto(photo(objects[2]))
+//				.profilePhotoCompressed(Boolean.parseBoolean(isNotEmpty(objects[3])))
+//				.build();		
 
 	}
 
+	
+	private String bytesToString(byte[] bytes) {
+		return ArrayUtils.isEmpty(bytes) ? null : new String(bytes);
+	}
+	
 	public LinkedList<String> tranformHealthIdObject(Object object)
 	{
 		Object[] objects = (Object[]) object;

@@ -1,33 +1,26 @@
 package com.migration.migration.process;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import javax.transaction.Transactional;
-
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.type.filter.AbstractClassTestingTypeFilter;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.migration.migration.component.HidCMTransformComponent;
 import com.migration.migration.component.HidPhrTransFormComponent;
-import com.migration.migration.entity.KycData;
 import com.migration.migration.entity.UserEntity;
 import com.migration.migration.proxy.MigrationClient;
 import com.migration.migration.repository.UserEntityDataRepository;
 import com.migration.migration.request.PhrRequestPlayLoad;
 import com.migration.migration.request.PhrUpdatePhotoProfileRequest;
 import com.migration.migration.request.ShareCMRequestPlayLoad;
+import com.migration.migration.utils.ImageUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -87,8 +80,9 @@ public class MigrationProcess {
 					try {
 						String healthIdNumber =  transformPhoto(user).get(1);
 						String phrAddress      =  transformPhoto(user).get(0);
-						Object profilePhoto = userEntityDataRepository.getProfilePhoto(healthIdNumber);
-						transform(profilePhoto,healthIdNumber,phrAddress);
+						UserEntity userEntity = userEntityDataRepository.getUserLiteWithPhotoByHealthIdNumber(healthIdNumber);
+						userEntity.setHealthId(phrAddress);
+						transform(userEntity);
 					    
 						
 					} catch (InterruptedException e) {
@@ -106,13 +100,22 @@ public class MigrationProcess {
 	}
 
 
-	private void transform(Object profilePhoto, String healthIdNumber, String phrAddress) throws InterruptedException {
+	private void transform(UserEntity userEntity) throws InterruptedException {
 		// TODO Auto-generated method stub
-		UserEntity userEntObject = hidCMTransformComponent.transform(profilePhoto);
-		userEntObject.setHealthId(phrAddress);		
-		newmigrationProcess(userEntObject);
+		 //UserEntity userEntObject = hidCMTransformComponent.transform(profilePhoto);
+		//userEntObject.setHealthId(phrAddress);
+		if (Objects.nonNull(userEntity.getProfilePhoto())) {
+			if (userEntity.isProfilePhotoCompressed()) {
+				userEntity.setProfilePhoto(ImageUtils.decompress(userEntity.getProfilePhoto()));
+			}
+		 }
+		newmigrationProcess(userEntity);
 	}
 
+	private String bytesToString(byte[] bytes) {
+		return ArrayUtils.isEmpty(bytes) ? null : new String(bytes);
+	}
+	
 	private UserEntity transform(Object object) throws InterruptedException {
 	
 		return migrationProcess(hidCMTransformComponent.transform(object));

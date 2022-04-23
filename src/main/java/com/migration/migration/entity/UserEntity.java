@@ -145,11 +145,10 @@ public class UserEntity {
 	@Column
 	private String pincode;
 
-	//@Basic(fetch = LAZY)
-	//@Lob
-	@Transient
-	//@Column(name = "profilePhoto")
-	private String profilePhoto;
+	@Basic(fetch = LAZY)
+	@Lob
+	@Column(name = "profilePhoto")
+	private byte[] profilePhoto;
 
 	@Column
 	private String stateCode;
@@ -243,6 +242,8 @@ public class UserEntity {
 		this.mobile = mobile;
 	}
 
+	
+	
 	public UserEntity(String healthIdNumber, String healthId, String name, String mobile, String gender, String address,
 			String dayOfBirth, String monthOfBirth, String yearOfBirth, String districtCode, String stateCode,
 			String districtName, String stateName) {
@@ -263,7 +264,7 @@ public class UserEntity {
 
 	public UserEntity(String healthIdNumber, String healthId, String name, String mobile, String gender, String address,
 			String dayOfBirth, String monthOfBirth, String yearOfBirth, String districtCode, String stateCode,
-			String districtName, String stateName, String profilePhoto, boolean profilePhotoCompressed) {
+			String districtName, String stateName, byte[] profilePhoto, boolean profilePhotoCompressed) {
 		this.healthIdNumber = healthIdNumber;
 		this.healthId = healthId;
 		this.name = name;
@@ -281,6 +282,14 @@ public class UserEntity {
 		this.profilePhotoCompressed = profilePhotoCompressed;
 	}
 
+	
+
+	public UserEntity( String healthIdNumber ,byte[] profilePhoto, boolean profilePhotoCompressed) {
+		this.healthIdNumber = healthIdNumber;
+		this.profilePhoto = profilePhoto;
+		this.profilePhotoCompressed = profilePhotoCompressed;
+	}
+	
 //	@PrePersist
 //	public void prePersist() {
 //		// Copy the kycPhoto into profile photo if available first time.

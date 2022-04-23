@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.migration.migration.entity.UserEntity;
 
+@Repository
 public interface UserEntityDataRepository extends JpaRepository<UserEntity, String> {
 
 //	@Query(value = "select a.health_id_number,h.phr_address as health_id,a.password,\n"
@@ -49,6 +51,10 @@ public interface UserEntityDataRepository extends JpaRepository<UserEntity, Stri
 	@Query(value = "update accounts set cm_migrated=?1 where health_id_number=?2", nativeQuery = true)
 	int updateAbhaAccoutsForCM(@Param("cmMigrated") String cmMigrated, 
 			@Param("healthIdNumber") String healthIdNumber);
+
+	@Transactional
+	@Query("SELECT new com.parserlabs.health.entity.UserEntity(u.healthIdNumber, u.profilePhoto, u.profilePhotoCompressed) FROM UserEntity u WHERE u.healthIdNumber = ?1")
+	UserEntity getUserLiteWithPhotoByHealthIdNumber(String health);
 
 	
 	@Transactional
