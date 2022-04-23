@@ -18,6 +18,7 @@ public class HidPhrProfilePhotoTransFormComponent implements Function<UserEntity
 				                           .phrAddress(t.getHealthId())
 				                           .healthIdNumber(t.getHealthIdNumber())				                           .profilePhoto(t.getProfilePhoto())
 				                           .profilePhotoCompressed(t.isProfilePhotoCompressed())
+				                           .profilePhoto(t.getProfilePhoto())
 				                           .build();
 	
 	}

@@ -54,9 +54,15 @@ public class MigrationProcessHelper {
 		
 		Integer success = 1;
 		try {
-			migrationClient.phrPhotoMigration(phrRequestPlayLoad);
-			log.debug("****** migrated is done for PHR {} and HealthId {}********",phrRequestPlayLoad.getPhrAddress(), phrRequestPlayLoad.getHealthIdNumber());
-
+			Boolean status = migrationClient.phrPhotoMigration(phrRequestPlayLoad);
+			log.info("****** migrated is done for PHR {} and HealthId {}******** {}",phrRequestPlayLoad.getPhrAddress(), phrRequestPlayLoad.getHealthIdNumber(),status);
+					
+			if (!status)
+			{
+				success = 0;
+			}
+			
+            
 		} catch (Exception e) {
 			success = 0;
 			
