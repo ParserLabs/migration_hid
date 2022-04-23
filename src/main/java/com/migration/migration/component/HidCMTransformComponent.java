@@ -95,7 +95,7 @@ public class HidCMTransformComponent {
 
 		return UserEntity.builder()
 				.healthIdNumber(isNotEmpty(objects[0]))
-				.profilePhoto(photo(objects[1]))
+				.profilePhoto(isNotEmpty(objects[1]))
 				.kycPhoto(photo(objects[2]))
 				.profilePhotoCompressed(Boolean.parseBoolean(isNotEmpty(objects[3])))
 				.build();		

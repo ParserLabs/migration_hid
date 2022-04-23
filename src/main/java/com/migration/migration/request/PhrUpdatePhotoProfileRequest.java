@@ -12,7 +12,7 @@ public class PhrUpdatePhotoProfileRequest {
 
 	String phrAddress;
 	String healthIdNumber;
-	byte[] profilePhoto;
+	String profilePhoto;
 	Boolean profilePhotoCompressed;
 
 	
