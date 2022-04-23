@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.migration.migration.entity.UserEntity;
 
-@Repository
 public interface UserEntityDataRepository extends JpaRepository<UserEntity, String> {
 
 //	@Query(value = "select a.health_id_number,h.phr_address as health_id,a.password,\n"
@@ -53,7 +52,7 @@ public interface UserEntityDataRepository extends JpaRepository<UserEntity, Stri
 			@Param("healthIdNumber") String healthIdNumber);
 
 	@Transactional
-	@Query("SELECT new com.parserlabs.health.entity.UserEntity(u.healthIdNumber, u.profilePhoto, u.profilePhotoCompressed) FROM UserEntity u WHERE u.healthIdNumber = ?1")
+	@Query("SELECT new com.migration.migration.entity.UserEntity(u.healthIdNumber, u.profilePhoto, u.profilePhotoCompressed) FROM UserEntity u WHERE u.healthIdNumber = ?1")
 	UserEntity getUserLiteWithPhotoByHealthIdNumber(String health);
 
 	

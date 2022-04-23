@@ -1,5 +1,7 @@
 package com.migration.migration.model.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/migration")
 public class MigrationController {
 
+	@Autowired
 	private MigrationProcess migrationProcess;
 
 	@GetMapping("/start")
